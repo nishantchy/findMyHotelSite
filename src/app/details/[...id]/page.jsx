@@ -2,7 +2,8 @@ import Hero from "../../../components/HotelDetails/Hero";
 import Description from "../../../components/HotelDetails/Description";
 import Contacts from "../../../components/HotelDetails/Contacts";
 import Gallery from "../../../components/HotelDetails/Gallery";
-// import Map from "../../../components/HotelDetails/Map";
+import MapComponent from "../../../components/HotelDetails/MapComponent";
+
 export default async function Page({ params }) {
   const { id } = params;
   let data = await fetch(`http://localhost:8000/api/hotels/${id}`);
@@ -18,6 +19,7 @@ export default async function Page({ params }) {
         <Contacts hotel={hotels} />
       </div>
       <Gallery hotel={hotels} />
+      <MapComponent hotel={hotels} />
     </div>
   );
 }

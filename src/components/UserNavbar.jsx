@@ -1,16 +1,68 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../public/assets/images/logo-header.png";
 import { FcInspection } from "react-icons/fc";
 import { IoIosSearch, IoMdMenu, IoMdClose } from "react-icons/io";
-import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+  useUser,
+} from "@clerk/nextjs";
 
 const UserNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoaded, isSignedIn, user } = useUser();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      console.log("User Auth Data:", user);
+
+      const userData = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailAddress: user.primaryEmailAddress.emailAddress,
+        imageUrl: user.imageUrl,
+      };
+
+      const insertUserIntoDB = async () => {
+        const storedUser = localStorage.getItem("userInserted");
+
+        if (storedUser) {
+          console.log("User already inserted, skipping API call.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:8000/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to insert user data into the database");
+          }
+
+          const result = await response.json();
+          console.log("User data inserted successfully:", result);
+
+          localStorage.setItem("userInserted", "true");
+        } catch (error) {
+          console.error("Error inserting user data:", error);
+        }
+      };
+
+      insertUserIntoDB();
+    }
+  }, [isLoaded, isSignedIn, user]);
 
   const NavLinks = () => (
     <>
@@ -27,7 +79,7 @@ const UserNavbar = () => {
         Find Hotels
       </Link>
       <Link
-        href="/bookings"
+        href="/mybooking"
         className="text-dark hover:text-primary font-semibold flex items-center gap-x-1 text-sm"
       >
         <FcInspection className="w-6 h-6" />
@@ -37,10 +89,9 @@ const UserNavbar = () => {
   );
 
   return (
-    <nav className="bg-white shadow-md relative">
+    <nav className="bg-white shadow-md relative ">
       <div className="max-w-[1240px] w-full mx-auto px-4 flex justify-between items-center">
         <div className="py-1">
-          {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image src={logo} alt="Hotel Logo" width={145} height={90} />
           </Link>
@@ -77,7 +128,6 @@ const UserNavbar = () => {
         } w-64 bg-white shadow-lg transition-transform duration-300 ease-in-out z-40 md:hidden`}
       >
         <div className="p-6 space-y-6">
-          {/* <SearchBar /> */}
           <div className="flex flex-col space-y-4">
             <NavLinks />
           </div>

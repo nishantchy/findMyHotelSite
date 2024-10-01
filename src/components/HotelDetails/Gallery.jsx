@@ -17,7 +17,7 @@ const Gallery = ({ hotel }) => {
           {hotel.images.map((src, i) => (
             <div key={i} className="aspect-w-1 aspect-h-1 cursor-pointer">
               <Image
-                src={`http://localhost:8000/${src}`} // Assuming src is a relative URL
+                src={`http://localhost:8000/${src}`}
                 alt={`Gallery image ${i + 1}`}
                 width={300}
                 height={300}

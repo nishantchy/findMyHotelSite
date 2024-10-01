@@ -6,7 +6,7 @@ import Link from "next/link";
 const HotelCards = ({ hotels }) => {
   return (
     <div className="flex justify-center md:justify-start flex-wrap gap-6">
-      {hotels.map((hotel) => (
+      {hotels.slice(0, 4).map((hotel) => (
         <div
           key={hotel._id}
           className="max-w-[290px] w-full rounded-sm shadow-2xl"

@@ -10,7 +10,7 @@ const HotelListing = ({ hotels }) => {
         <FilterSidebar className="w-full md:w-1/4" hotels={hotels} />
         <div className="w-full md:w-3/4">
           <div className="mb-4 flex justify-end">
-            <Filter />
+            <Filter hotels={hotels} />
           </div>
           <SearchBar hotels={hotels} />
         </div>
