@@ -10,11 +10,15 @@ const CheckoutForm = ({
   checkOutDate,
   userEmail,
   onBookingSuccess,
+  clientS,
 }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
+
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,39 +29,45 @@ const CheckoutForm = ({
       return;
     }
 
+    setIsLoading(true);
+    setIsLoading(false);
+    let hotelIds = hotel._id;
+
+    const formData = {
+      hotelId: hotelIds,
+      roomType: roomType,
+      numberOfGuests: guests,
+      totalPrice: totalPrice,
+      checkInDate: checkInDate,
+      checkOutDate: checkOutDate,
+      userEmail: userEmail,
+      hotelName: hotel.name,
+    };
+
+    console.log(formData);
     try {
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      const response = await fetch("http://localhost:8000/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          paymentMethodId: paymentMethod.id,
-          hotelId: hotel._id,
-          roomType,
-          numberOfGuests: guests,
-          totalPrice,
-          checkInDate,
-          checkOutDate,
-          userEmail,
-        }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        console.log("Booking successful!");
-        onBookingSuccess();
-      } else {
-        throw new Error(result.message || "Booking failed");
+      if (userEmail) {
+        const response = await fetch("http://localhost:8000/api/bookings", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const result = await response.json();
+        if (result.success) {
+          console.log("Booking successful!");
+          const payload = await stripe.confirmCardPayment(clientS, {
+            payment_method: {
+              card: elements.getElement(CardElement),
+            },
+          });
+          setPaymentError("Paid and booked successfully");
+          onBookingSuccess();
+          console.log(payload);
+        } else {
+          throw new Error(result.message || "Booking failed");
+        }
       }
     } catch (error) {
       setPaymentError(error.message || "An error occurred. Please try again.");
