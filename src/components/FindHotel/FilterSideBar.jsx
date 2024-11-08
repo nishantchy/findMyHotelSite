@@ -1,5 +1,4 @@
 import React from "react";
-import SearchBar from "./SearchBar";
 
 const FilterSection = ({ title, options }) => (
   <div className="mb-4">

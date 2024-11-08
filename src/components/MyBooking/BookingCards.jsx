@@ -1,8 +1,21 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import { MdDeleteForever } from "react-icons/md";
-const BookingCards = ({ bookings }) => {
+
+const BookingCards = ({ bookings: initialBookings }) => {
+  const [bookings, setBookings] = useState(initialBookings);
+
+  const handleDelete = (bookingId) => {
+    const updatedBookings = bookings.filter(
+      (booking) => booking._id !== bookingId
+    );
+
+    setBookings(updatedBookings);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold text-center mb-6">My Bookings</h1>
       {bookings.length === 0 ? (
         <p className="text-center text-lg">You have no bookings.</p>
@@ -14,23 +27,14 @@ const BookingCards = ({ bookings }) => {
               className="flex flex-col sm:flex-row items-center justify-between border-b p-6 hover:bg-gray-50"
             >
               <div className="flex flex-wrap items-center w-full sm:w-auto">
-                {booking.hotelId.images && booking.hotelId.images.length > 0 ? (
-                  <Image
-                    src={`http://localhost:8000/${booking.hotelId.images[0]}`}
-                    alt={booking.hotelName}
-                    width={200}
-                    height={100}
-                    className=" rounded-md object-cover"
-                  />
-                ) : (
-                  <Image
-                    src="/default-image.jpg"
-                    alt="No Image"
-                    width={100}
-                    height={100}
-                    className="w-24 h-24 rounded-md object-cover"
-                  />
-                )}
+                <Image
+                  src={`http://localhost:8000/${booking.hotelImage}`}
+                  alt={booking.hotelName}
+                  width={200}
+                  height={100}
+                  className="rounded-md object-cover"
+                />
+
                 <div className="ml-6">
                   <h2 className="text-xl font-semibold">{booking.hotelName}</h2>
                   <p className="text-gray-500 text-sm mt-1">
@@ -56,19 +60,15 @@ const BookingCards = ({ bookings }) => {
                   Rs.{booking.totalPrice}
                 </p>
                 <MdDeleteForever
+                  onClick={() => handleDelete(booking._id)}
                   style={{
                     width: "30px",
                     height: "30px",
                     color: "#D11A2A",
                     marginLeft: "20px",
+                    cursor: "pointer",
                   }}
                 />
-                {/* <button
-                  //   onClick={() => handleCancelBooking(booking._id)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all"
-                >
-                  Cancel Booking
-                </button> */}
               </div>
             </div>
           ))}
