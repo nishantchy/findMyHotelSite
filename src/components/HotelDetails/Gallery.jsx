@@ -17,7 +17,7 @@ const Gallery = ({ hotel }) => {
           {hotel.images.map((src, i) => (
             <div key={i} className="aspect-w-1 aspect-h-1 cursor-pointer">
               <Image
-                src={`http://localhost:8000/${src}`}
+                src={`https://findmyhotelbackend-production.up.railway.app/${src}`}
                 alt={`Gallery image ${i + 1}`}
                 width={300}
                 height={300}
@@ -35,7 +35,7 @@ const Gallery = ({ hotel }) => {
         index={index}
         close={() => setIndex(-1)}
         slides={hotel.images.map((src) => ({
-          src: `http://localhost:8000/${src}`,
+          src: `https://findmyhotelbackend-production.up.railway.app/${src}`,
         }))}
       />
     </section>

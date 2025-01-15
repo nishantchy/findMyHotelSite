@@ -1,7 +1,9 @@
 import BookingCard from "../../components/MyBooking/BookingCards";
 
 export default async function Page() {
-  let data = await fetch("http://localhost:8000/api/bookings");
+  let data = await fetch(
+    "https://findmyhotelbackend-production.up.railway.app/api/bookings"
+  );
   let bookings = await data.json();
 
   return (

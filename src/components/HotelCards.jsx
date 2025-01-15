@@ -12,7 +12,7 @@ const HotelCards = ({ hotels }) => {
           className="max-w-[290px] w-full rounded-sm shadow-2xl"
         >
           <Image
-            src={`http://localhost:8000/${hotel.images[0]}`}
+            src={`https://findmyhotelbackend-production.up.railway.app/${hotel.images[0]}`}
             width={290}
             height={175}
             alt={hotel.name}

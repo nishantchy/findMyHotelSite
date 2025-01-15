@@ -8,7 +8,7 @@ const HotelCard = ({ hotel }) => {
       <div className="relative w-full md:w-1/3 h-48 md:h-auto flex justify-center items-center">
         {hotel.images.length > 0 && (
           <Image
-            src={`http://localhost:8000/${hotel.images[0]}`}
+            src={`https://findmyhotelbackend-production.up.railway.app/${hotel.images[0]}`}
             width={260}
             height={175}
             alt={hotel.name}

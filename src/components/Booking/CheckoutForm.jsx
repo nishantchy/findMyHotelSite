@@ -47,13 +47,16 @@ const CheckoutForm = ({
     console.log(formData);
     try {
       if (userEmail) {
-        const response = await fetch("http://localhost:8000/api/bookings", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "https://findmyhotelbackend-production.up.railway.app/api/bookings",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
         const result = await response.json();
         if (result.success) {
           console.log("Booking successful!");

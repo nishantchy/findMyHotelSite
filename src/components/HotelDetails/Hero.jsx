@@ -8,7 +8,7 @@ const Hero = ({ hotel }) => {
     <div className="relative w-full h-[50vh] md:h-[87vh]">
       <div key={hotel._id}>
         <Image
-          src={`http://localhost:8000/${hotel.images[0]}`}
+          src={`https://findmyhotelbackend-production.up.railway.app/${hotel.images[0]}`}
           alt={hotel.name}
           className="object-cover w-full h-full"
           layout="fill"

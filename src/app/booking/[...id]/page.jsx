@@ -3,7 +3,9 @@ import BookingForm from "../../../components/Booking/BookingForm";
 
 export default async function BookingPage({ params }) {
   const { id } = params;
-  let data = await fetch(`http://localhost:8000/api/hotels/${id}`);
+  let data = await fetch(
+    `https://findmyhotelbackend-production.up.railway.app/api/hotels/${id}`
+  );
   let hotel = await data.json();
 
   return (

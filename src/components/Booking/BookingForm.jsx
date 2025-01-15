@@ -27,12 +27,15 @@ const BookingForm = ({ hotel, userEmail }) => {
   useEffect(() => {
     async function createPaymentIntent() {
       try {
-        const res = await fetch("http://localhost:8000/create-payment-intent", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "https://findmyhotelbackend-production.up.railway.app/create-payment-intent",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data = await res.json();
         console.log(data);
         setClientSecret(data.clientSecret);

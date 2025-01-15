@@ -28,7 +28,7 @@ const BookingCards = ({ bookings: initialBookings }) => {
             >
               <div className="flex flex-wrap items-center w-full sm:w-auto">
                 <Image
-                  src={`http://localhost:8000/${booking.hotelImage}`}
+                  src={`https://findmyhotelbackend-production.up.railway.app/${booking.hotelImage}`}
                   alt={booking.hotelName}
                   width={200}
                   height={100}

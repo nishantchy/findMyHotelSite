@@ -6,7 +6,9 @@ import MapComponent from "../../../components/HotelDetails/MapComponent";
 
 export default async function Page({ params }) {
   const { id } = params;
-  let data = await fetch(`http://localhost:8000/api/hotels/${id}`);
+  let data = await fetch(
+    `https://findmyhotelbackend-production.up.railway.app/api/hotels/${id}`
+  );
   let hotels = await data.json();
 
   return (

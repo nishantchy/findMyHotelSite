@@ -39,13 +39,16 @@ const UserNavbar = () => {
         }
 
         try {
-          const response = await fetch("http://localhost:8000/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-          });
+          const response = await fetch(
+            "https://findmyhotelbackend-production.up.railway.app/api/users",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(userData),
+            }
+          );
 
           if (!response.ok) {
             throw new Error("Failed to insert user data into the database");
