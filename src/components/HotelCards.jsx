@@ -4,6 +4,11 @@ import { FaStar } from "react-icons/fa6";
 import Link from "next/link";
 
 const HotelCards = ({ hotels }) => {
+  if (!Array.isArray(hotels)) {
+    console.error("Invalid hotels data:", hotels);
+    return <p>No hotels available</p>;
+  }
+
   return (
     <div className="flex justify-center md:justify-start flex-wrap gap-6">
       {hotels.slice(0, 4).map((hotel) => (
